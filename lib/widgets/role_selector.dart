@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:athletiqapp/utils/constants.dart';
 
 enum RoleType { athlete, sai }
 
@@ -14,37 +15,27 @@ class RoleSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Select Your Role",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.normal),
-          ),
-          const SizedBox(height: 24),
-
-          _buildRoleBox(
-            role: RoleType.athlete,
-            color: Colors.orange,
-            icon: Icons.show_chart,
-            title: "Athlete",
-            subtitle: "For talent assessment",
-            isSelected: selectedRole == RoleType.athlete,
-          ),
-          const SizedBox(height: 16),
-
-          _buildRoleBox(
-            role: RoleType.sai,
-            color: Colors.green,
-            icon: Icons.shield,
-            title: "SAI Official",
-            subtitle: "For management and review",
-            isSelected: selectedRole == RoleType.sai,
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildRoleBox(
+          role: RoleType.athlete,
+          color: kOrangeGradient.colors.first,
+          icon: Icons.show_chart_rounded,
+          title: "Athlete",
+          subtitle: "For talent assessment",
+          isSelected: selectedRole == RoleType.athlete,
+        ),
+        const SizedBox(height: 16),
+        _buildRoleBox(
+          role: RoleType.sai,
+          color: kGreenGradient.colors.first,
+          icon: Icons.shield,
+          title: "SAI Official",
+          subtitle: "For management & review",
+          isSelected: selectedRole == RoleType.sai,
+        ),
+      ],
     );
   }
 
@@ -58,16 +49,24 @@ class RoleSelector extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () => onRoleSelected(role),
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
         width: double.infinity,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
-            color: isSelected ? Colors.orange : Colors.grey.shade300,
-            width: isSelected ? 2 : 1,
+            color: isSelected ? kOrangeGradient.colors.first : Colors.grey.shade300,
+            width: isSelected ? 2.5 : 1,
           ),
           borderRadius: BorderRadius.circular(12),
+          boxShadow: isSelected ? [
+            BoxShadow(
+              color: kOrangeGradient.colors.first.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ] : [],
         ),
         child: Row(
           children: [
@@ -75,7 +74,7 @@ class RoleSelector extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: color,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon, color: Colors.white, size: 28),
             ),
@@ -84,16 +83,22 @@ class RoleSelector extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.normal)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.grey.shade700),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey.shade600,
+                    ),
                   ),
                 ],
               ),
