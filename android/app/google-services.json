@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "852362003678",
+    "project_id": "athletiq-app-40d8e",
+    "storage_bucket": "athletiq-app-40d8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852362003678:android:d0ab3b86d8261d11ecae4f",
+        "android_client_info": {
+          "package_name": "com.example.athletiqapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbQqac0NQBypauNUofglpm2t1DRsRMjHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

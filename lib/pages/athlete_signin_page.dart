@@ -16,6 +16,7 @@ class _AthleteSignInPageState extends State<AthleteSignInPage> {
     String username = _usernameController.text.trim();
 
     if (username.isNotEmpty && _passwordController.text.isNotEmpty) {
+      // Navigate to MainPage and pass the username
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -32,14 +33,14 @@ class _AthleteSignInPageState extends State<AthleteSignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, // ✅ prevents overflow
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(title: const Text("Athlete Sign In")),
       body: SafeArea(
-        child: SingleChildScrollView( // ✅ makes form scrollable when keyboard opens
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const SizedBox(height: 80), // spacing from top
+              const SizedBox(height: 80),
               TextField(
                 controller: _usernameController,
                 decoration: const InputDecoration(labelText: "Username"),
@@ -56,7 +57,7 @@ class _AthleteSignInPageState extends State<AthleteSignInPage> {
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 child: const Text("Sign In"),
               ),
-              const SizedBox(height: 40), // extra space so button not hidden
+              const SizedBox(height: 40),
             ],
           ),
         ),

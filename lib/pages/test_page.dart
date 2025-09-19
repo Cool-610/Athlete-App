@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'tests/vertical_jump_page.dart';
+import 'tests/push_up_page.dart';
+import 'tests/sprint_test_page.dart';
 
 class TestPage extends StatelessWidget {
   const TestPage({super.key});
@@ -6,130 +9,134 @@ class TestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          // Gradient Header
-          Container(
-            padding: const EdgeInsets.all(20),
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.orange, Colors.white, Colors.green],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Performance Tests",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Test Recording",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
-                SizedBox(height: 6),
-                Text("Choose your assessment",
-                    style: TextStyle(fontSize: 16, color: Colors.black54)),
-              ],
+            const SizedBox(height: 10),
+            const Text(
+              "Choose a test to start",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: const [
-                TestCard(
-                  icon: Icons.show_chart,
-                  iconColor: Colors.blue,
-                  title: "Vertical Jump",
-                  subtitle: "Measure your jumping height",
-                  duration: "30 seconds",
-                ),
-                SizedBox(height: 12),
-                TestCard(
-                  icon: Icons.adjust,
-                  iconColor: Colors.teal,
-                  title: "Push-up Test",
-                  subtitle: "Test your upper body strength",
-                  duration: "60 seconds",
-                ),
-                SizedBox(height: 12),
-                TestCard(
-                  icon: Icons.bolt,
-                  iconColor: Colors.green,
-                  title: "Sprint Test",
-                  subtitle: "Measure your speed and acceleration",
-                  duration: "10 seconds",
-                ),
-              ],
+            const SizedBox(height: 20),
+            _buildTestCard(
+              context,
+              title: "Vertical Jump",
+              description: "Measure your jumping height",
+              icon: Icons.run_circle_outlined,
+              color: Colors.blue.shade50,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const VerticalJumpPage(),
+                  ),
+                );
+              },
             ),
-          )
-        ],
+            _buildTestCard(
+              context,
+              title: "Push-Up Test",
+              description: "Measure your upper body endurance",
+              icon: Icons.fitness_center_outlined,
+              color: Colors.red.shade50,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const PushUpPage(),
+                  ),
+                );
+              },
+            ),
+            _buildTestCard(
+              context,
+              title: "Sprint Test",
+              description: "Measure your speed and acceleration",
+              icon: Icons.directions_run_outlined,
+              color: Colors.green.shade50,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SprintTestPage(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
-}
 
-class TestCard extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
-  final String title;
-  final String subtitle;
-  final String duration;
-
-  const TestCard({
-    super.key,
-    required this.icon,
-    required this.iconColor,
-    required this.title,
-    required this.subtitle,
-    required this.duration,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: iconColor.withOpacity(0.1),
-            child: Icon(icon, color: iconColor, size: 28),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                const SizedBox(height: 4),
-                Text(subtitle,
-                    style:
-                        const TextStyle(fontSize: 14, color: Colors.black54)),
-              ],
+  Widget _buildTestCard(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              blurRadius: 6,
+              offset: const Offset(2, 4),
             ),
-          ),
-          Row(
-            children: [
-              const Icon(Icons.timer, size: 16, color: Colors.black54),
-              const SizedBox(width: 4),
-              Text(duration,
-                  style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black87)),
-            ],
-          ),
-        ],
+          ],
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 40, color: Colors.black),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    description,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios, color: Colors.black54),
+          ],
+        ),
       ),
     );
   }

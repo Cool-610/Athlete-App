@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   final String username;
+  // This is a required function property.
+  final Function(int) onNavigateToTest;
 
-  const DashboardPage({super.key, required this.username});
+  const DashboardPage({
+    super.key,
+    required this.username,
+    required this.onNavigateToTest,
+  });
 
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +51,7 @@ class DashboardPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      username,
+                      widget.username,
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -148,8 +159,7 @@ class DashboardPage extends StatelessWidget {
                         value: 0.7,
                         minHeight: 10,
                         backgroundColor: Colors.grey.shade200,
-                        valueColor:
-                            const AlwaysStoppedAnimation<Color>(Colors.orange),
+                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.orange),
                       ),
                     ),
                   ],
@@ -214,33 +224,48 @@ class DashboardPage extends StatelessWidget {
 
               const SizedBox(height: 20),
 
+              // Status Card (NEW)
+              _buildStatusCard(
+                title: "State Level Ready",
+                subtitle: "2 more verified tests for National Level",
+                status: "In Progress",
+              ),
+
+              const SizedBox(height: 20),
+
               // Start Test + View Results
               Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Colors.orange, Colors.green],
+                    child: GestureDetector(
+                      onTap: () {
+                        // Calling the provided function to navigate.
+                        widget.onNavigateToTest(1);
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Colors.orange, Colors.green],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.videocam, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              "Start Test",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                        child: const Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.videocam, color: Colors.white),
+                              SizedBox(width: 8),
+                              Text(
+                                "Start Test",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -282,6 +307,7 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
+  // 📌 Summary Box
   Widget _buildSummaryBox(String value, String label,
       {required Color background, required Color textColor}) {
     return Container(
@@ -322,6 +348,7 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
+  // 📌 Test Box
   Widget _buildTestBox({
     required String title,
     String? score,
@@ -427,6 +454,82 @@ class DashboardPage extends StatelessWidget {
                 style: TextStyle(color: Colors.orange, fontSize: 12),
               ),
             ),
+        ],
+      ),
+    );
+  }
+
+  // 📌 Status Card
+  Widget _buildStatusCard({
+    required String title,
+    required String subtitle,
+    required String status,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFFE9F0FF), Color(0xFFFFFFFF)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.blue.shade100),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [Color(0xFF6A5AE0), Color(0xFF8F8DED)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: const Icon(Icons.emoji_events,
+                color: Colors.white, size: 22),
+          ),
+          const SizedBox(width: 12),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: const TextStyle(fontSize: 13, color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.blue.shade50,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              status,
+              style: const TextStyle(
+                color: Colors.blue,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ],
       ),
     );
